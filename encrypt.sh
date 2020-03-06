@@ -183,38 +183,56 @@ for i in $command; do
 done
 
 werte=(${wertdump%?})
-readarray -t maxwerte < <(for a in "${werte[@]}"; do echo "$a"; done | sort)
+readarray -t maxwerte < <(for a in "${werte[@]}"; do echo "$a"; done | sort -n )
 
 for i in ${maxwerte[@]}; do
     maxwert=$i
 done
 
-
 code=''
 vhdump=''
 a=0
 for i in $command; do
+    
+    tposx=$(( ( $COLUMNS / 9 ) * ( $RANDOM % 9 ) ))
+    tposy=$(( ( $RANDOM % ( $LINES / ( $keynum + 3 ) ) ) * ( $LINES / ( $LINES / ( $keynum + 3 ) ) ) ))
+    
     txt_1=$( a_ascii $i )
     txt_2=$( a_bin $txt_1 )
 
     vhtxt='vh_'$txt_1
-    vh=$(( ( ( ( ${!vhtxt} * 1000 ) / $maxwert ) * ( $keylen - 1 ) ) / 1000 ))
+
+    if [ ${!vhtxt} -eq $maxwert ]; then
+	add='\033[41m'
+    else
+	add=''
+    fi
+    
+    vh=$(( ( ( ( ${!vhtxt} * 1000 ) / $maxwert ) * ( $keynum ) ) / 1000 ))
     if [ $vh -eq 0 ]; then
 	vh=1
     fi
     vhdump=$vhdump' '$vh
     
-    echo -en "\n\033[4m$i ($vh)\033[0m\n"
+    tput cup $tposy $tposx
+    echo -en "\033[4;31m$i ($vh)\033[0m"
     switchcrypt=$txt_2
     b=0
     while [ $b -lt $vh ]; do
+	acap=$( printf "%.2i\n" $a )
 	switchcrypt=$( a_switchcrypt $switchcrypt ${key[$a]} )
-	echo -en "$a > $switchcrypt\n"
+	tput cup $(( $b + 2 + $tposy )) $tposx
+	echo -en "\033[0;44m$add$acap\033[0m$add > \033[1;32m$switchcrypt\033[0m"
 	if [ $a -eq $keynum ]; then
 	    a=0
 	else
 	    a=$(( $a + 1 ))
 	fi
+	b=$(( $b + 1 ))
+    done
+    while [ $b -lt $keynum ]; do
+	tput cup $(( $b + 2 + $tposy )) $tposx
+	echo -en "\033[0m$add             \033[0m"
 	b=$(( $b + 1 ))
     done
     code=$code' '$switchcrypt
@@ -254,4 +272,6 @@ echo $keycapture
 echo -e "\n\033[4mCODE:\033[0;1m"
 echo $tan$code
 echo -en "\033[0m"
-echo ""
+tput civis
+read -sn1 hallo
+tput cnorm

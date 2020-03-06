@@ -228,14 +228,36 @@ text=''
 a=0
 c=0
 for i in $command; do
-    echo -en "\n\033[4m$i (${nk[$c]})\033[0m\n"
+    
+    tposx=$(( ( $COLUMNS / 9 ) * ( $RANDOM % 9 ) ))
+    tposy=$(( ( $RANDOM % ( $LINES / ( $keylen + 3 ) ) ) * ( $LINES / ( $LINES / ( $keylen + 3 ) ) ) ))
+
+    if [ ${nk[$c]} -eq $(( $keylen - 1 )) ]; then
+	add='\033[41m'
+    else
+	add=''
+    fi
+    
+    tput cup $tposy $tposx
+    echo -en "\033[4;31m$i (${nk[$c]})\033[0m"
     switchcrypt=$i
+    b=1
+    while [ $b -lt $keylen ]; do
+	tput cup $(( $b + 2 + $tposy )) $tposx
+	echo -en "\033[0m$add             \033[0m"
+	b=$(( $b + 1 ))
+    done
+    
     b=${nk[$c]}
     while [ $b -gt 0 ]; do
+	acap=$( printf "%.2i\n" $a )
+	
 	nowkey=$( a_ascii ${key[$a]} )
 	nowkey=$( a_bin $nowkey )
 	switchcrypt=$( switchcrypt $switchcrypt $nowkey )
-	echo -en "$a > $switchcrypt\n"
+
+	tput cup $(( $b + 2 + $tposy )) $tposx
+	echo -en "\033[0;44m$add$acap\033[0m$add > \033[1;32m$switchcrypt\033[0m"
 	if [ $a -eq $(( $keylen - 1 )) ]; then
 	    a=0
 	else
@@ -253,6 +275,6 @@ done
 clear
 echo -e "\n\033[4mTEXT:\033[0m"
 echo $text
-
-
-echo ""
+tput civis
+read -sn1 hallo
+tput cnorm
