@@ -126,69 +126,58 @@ while [ $COLUMNS -ge $a ]; do
 done
 tput cup 0 $(( ( $COLUMNS / 2 ) - 4 ))
 echo -en "\033[0m CODE \033[0;1;43m\n"
-a=0
-while [ $COLUMNS -ge $a ]; do
-    tput cup 1 $a
-    echo -en "\033[1;43;37m "
-    a=$(( $a + 1 ))
-done
-a=0
-while [ $COLUMNS -ge $a ]; do
-    tput cup 2 $a
-    echo -en "\033[1;43;37m "
-    a=$(( $a + 1 ))
-done
-a=0
-while [ $COLUMNS -ge $a ]; do
-    tput cup 3 $a
-    echo -en "\033[1;43;37m "
-    a=$(( $a + 1 ))
-done
-a=0
-while [ $COLUMNS -ge $a ]; do
-    tput cup 4 $a
-    echo -en "\033[1;43;37m "
-    a=$(( $a + 1 ))
-done
-a=0
-while [ $COLUMNS -ge $a ]; do
-    tput cup 5 $a
-    echo -en "\033[1;43;37m "
-    a=$(( $a + 1 ))
+b=1
+while [ $b -lt $LINES ]; do
+    a=0
+    while [ $COLUMNS -ge $a ]; do
+	tput cup $b $a
+	echo -en "\033[1;43;37m "
+	a=$(( $a + 1 ))
+    done
+    b=$(( $b + 1 ))
 done
 tput cup 1 0
 read command
+echo -en "\033[0m"
+clear
+
 a=0
 while [ $COLUMNS -ge $a ]; do
-    tput cup 7 $a
+    tput cup 0 $a
     echo -en "\033[0m="
     a=$(( $a + 1 ))
 done
-tput cup 7 $(( ( $COLUMNS / 2 ) - 4 ))
+tput cup 0 $(( ( $COLUMNS / 2 ) - 4 ))
 echo -en "\033[0m KEY \033[0;1;43m\n"
-a=0
-while [ $COLUMNS -ge $a ]; do
-    tput cup 8 $a
-    echo -en "\033[1;41m "
-    a=$(( $a + 1 ))
+b=1
+while [ $b -lt $LINES ]; do
+    a=0
+    while [ $COLUMNS -ge $a ]; do
+	tput cup $b $a
+	echo -en "\033[1;41m "
+	a=$(( $a + 1 ))
+    done
+    b=$(( $b + 1 ))
 done
-tput cup 8 0
+tput cup 1 0
 read key
+echo -en "\033[0m"
+clear
 a=0
 while [ $COLUMNS -ge $a ]; do
-    tput cup 10 $a
+    tput cup 0 $a
     echo -en "\033[0m="
     a=$(( $a + 1 ))
 done
-tput cup 10 $(( ( $COLUMNS / 2 ) - 4 ))
+tput cup 0 $(( ( $COLUMNS / 2 ) - 4 ))
 echo -en "\033[0m HOST === [www.levi-jacobs.de/binaryENC/] \033[0;1;43m\n"
 a=0
 while [ $COLUMNS -ge $a ]; do
-    tput cup 11 $a
+    tput cup 1 $a
     echo -en "\033[1;44m "
     a=$(( $a + 1 ))
 done
-tput cup 11 0
+tput cup 1 0
 read host
 
 echo -en "\033[0m"
