@@ -201,7 +201,7 @@ fi
 tan=''
 a=0
 for i in $command; do
-    if [ $a -lt 4 ]; then
+    if [ $a -lt 32 ]; then
 	ntan=$( b_bin $i )
 	ntan=$( b_ascii $ntan )
 	tan=$tan$ntan
@@ -209,7 +209,7 @@ for i in $command; do
     a=$(( $a + 1 ))
 done
 
-command=${command:36}
+command=${command:288}
 
 nkey=$( echo -n "$key$tan" | md5sum )
 nkey=${nkey%?}

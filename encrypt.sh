@@ -241,21 +241,17 @@ done
 
 vhdump=${vhdump:1}
 
-tanc1=$(( $RANDOM % 9 ))
-tan1=$( a_ascii $tanc1 )
-tan1=$( a_bin $tan1 )
-tanc2=$(( $RANDOM % 9 ))
-tan2=$( a_ascii $tanc2 )
-tan2=$( a_bin $tan2 )
-tanc3=$(( $RANDOM % 9 ))
-tan3=$( a_ascii $tanc3 )
-tan3=$( a_bin $tan3 )
-tanc4=$(( $RANDOM % 9 ))
-tan4=$( a_ascii $tanc4 )
-tan4=$( a_bin $tan4 )
-tan=$tan1' '$tan2' '$tan3' '$tan4' '
-
-ntan=$tanc1$tanc2$tanc3$tanc4
+t=0;
+tan=''
+ntan=''
+while [ $t -lt 32 ]; do
+    nowtanc=$(( $RANDOM % 9 ))
+    nowtan=$( a_ascii $nowtanc )
+    nowtan=$( a_bin $nowtan )
+    tan="$tan"$nowtan" "
+    ntan="$ntan"$nowtanc
+    t=$(( $t + 1 ))
+done
 
 nkey=$( echo -n "$keycapture$ntan" | md5sum )
 nkey=${nkey%?}
