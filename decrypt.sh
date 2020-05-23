@@ -218,9 +218,12 @@ a=0
 c=0
 for i in $command; do
     
-    tposx=$(( ( $COLUMNS / 9 ) * ( $RANDOM % 9 ) ))
-    tposy=$(( ( $RANDOM % ( $LINES / ( $keylen + 3 ) ) ) * ( $LINES / ( $LINES / ( $keylen + 3 ) ) ) ))
+#    tposx=$(( ( $COLUMNS / 9 ) * ( $RANDOM % 9 ) ))
+#    tposy=$(( ( $RANDOM % ( $LINES / ( $keylen + 3 ) ) ) * ( $LINES / ( $LINES / ( $keylen + 3 ) ) ) ))
 
+    tposx=0
+    tposy=0
+    
     if [ ${nk[$c]} -eq $(( $keylen - 1 )) ]; then
 	add='\033[41m'
     else

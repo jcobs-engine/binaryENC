@@ -212,8 +212,11 @@ vhdump=''
 a=0
 for i in $command; do
     
-    tposx=$(( ( $COLUMNS / 9 ) * ( $RANDOM % 9 ) ))
-    tposy=$(( ( $RANDOM % ( $LINES / ( $keynum + 3 ) ) ) * ( $LINES / ( $LINES / ( $keynum + 3 ) ) ) ))
+#    tposx=$(( ( $COLUMNS / 9 ) * ( $RANDOM % 9 ) ))
+#    tposy=$(( ( $RANDOM % ( $LINES / ( $keynum + 3 ) ) ) * ( $LINES / ( $LINES / ( $keynum + 3 ) ) ) ))
+
+    tposx=1
+    tposy=1
     
     txt_1=$( a_ascii $i )
     txt_2=$( a_bin $txt_1 )
